@@ -1,20 +1,13 @@
 #include <Arduino.h>
 #include <utils_drawing.h>
 #include <utils_math.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SharpMem.h>
+#include <TFT_eSPI.h>
 
-// SPI pins for display
-#define SHARP_SCK  D8
-#define SHARP_MOSI D10
-#define SHARP_SS   D7
-
-// Set the size of the display here, e.g. 144x168!
-Adafruit_SharpMem display(SHARP_SCK, SHARP_MOSI, SHARP_SS, 144, 168);
+TFT_eSPI display = TFT_eSPI();  // Create object "tft"
 
 // Colors
-#define BLACK 0
-#define WHITE 1
+#define BLACK TFT_BLACK
+#define WHITE TFT_WHITE
 
 // Example data for a part of Miesbach
 int ways1[493][2] = {73, 141,  72, 136,  71, 131,  70, 130,  68, 126,  67, 123,  64,
@@ -104,7 +97,7 @@ int* point1 = new int[2];
 int* point2 = new int[2];
 
 // Center of screen
-const int screenCenter[2] = {72, 72};
+const int screenCenter[2] = {120,120};
 
 // Current map rotation in degrees
 int curr_deg = 0;
@@ -113,17 +106,30 @@ int curr_deg = 0;
 int curr_thickness = 2;
 
 
+void scaleWays(int ways[][2], int size, float scaleFactor) {
+  for (int i = 0; i < size; i++) {
+    // Preserve "0,0" as a separator
+    if (ways[i][0] != 0 || ways[i][1] != 0) {
+      ways[i][0] = static_cast<int>(ways[i][0] * scaleFactor);
+      ways[i][1] = static_cast<int>(ways[i][1] * scaleFactor);
+    }
+  }
+}
+
+
 void setup(void) {
 
   sleep(3);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Hello!");
   
 
   // start & clear the display
-  display.begin();
-  display.clearDisplay();
+  display.init();
+  display.setRotation(0);
+
+  scaleWays(ways1, 493, 1.66); // Example: Scale by 2x
 }
 
 
@@ -144,9 +150,8 @@ void loop(void) {
   // rotate first point and store it in point1
   rotatePoint(point1, rotMtx, ways1[0], screenCenter);
 
-  display.clearDisplay();
+  display.fillScreen(BLACK);
   long t_1 = millis();
-  display.startWrite();
   for(int i=1; i<492; i++) {
 
     // If next point is 0, we need to skip it
@@ -160,14 +165,13 @@ void loop(void) {
     rotatePoint(point2, rotMtx, ways1[i+1], screenCenter);
 
     // Draw line
-    draw_line(display, point1[0], 144-point1[1], point2[0], 144-point2[1], curr_thickness, BLACK);
+    display.drawLine(point1[0], 240-point1[1], point2[0], 240-point2[1], WHITE);
+    // draw_line(display, point1[0], 240-point1[1], point2[0], 240-point2[1], 1, WHITE);
 
     // Copy point2 into point1 for next line segment
     memcpy(point1, point2, sizeof(int)*2);
   }
-  display.endWrite();
   long t_2 = millis();
-  display.refresh();
   long t_3 = millis();
 
   int t_clear = t_1 - t_start;

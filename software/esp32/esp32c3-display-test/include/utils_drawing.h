@@ -2,7 +2,7 @@
 #define UTILS_DRAWING_H
 
 #include <Arduino.h>
-#include <Adafruit_SharpMem.h>
+#include <TFT_eSPI.h>
 
 /*******************************************************************************
  * Sequence of offsets for line thickening.
@@ -37,7 +37,7 @@ const int thickness_offsets[6] = {1, -1, 2, -2, 3, -3};
  * 
  * @param color color of the line that is drawn.
  ******************************************************************************/
-void draw_line(Adafruit_SharpMem display, int x0, int y0, int x1, int y1, uint8_t thickness, uint16_t color) {
+void draw_line(TFT_eSPI display, int x0, int y0, int x1, int y1, uint8_t thickness, uint16_t color) {
 
   int dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
   int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
