@@ -3,7 +3,8 @@
 #include <utils_math.h>
 #include <TFT_eSPI.h>
 
-TFT_eSPI display = TFT_eSPI();  // Create object "tft"
+TFT_eSPI tft = TFT_eSPI();  // Create object "tft"
+TFT_eSprite display = TFT_eSprite(&tft);  // Create object "tft"
 
 // Colors
 #define BLACK TFT_BLACK
@@ -126,8 +127,10 @@ void setup(void) {
   
 
   // start & clear the display
-  display.init();
-  display.setRotation(0);
+  tft.init();
+  tft.setRotation(0);
+  display.createSprite(240, 240);
+
 
   scaleWays(ways1, 493, 1.66); // Example: Scale by 2x
 }
@@ -165,13 +168,14 @@ void loop(void) {
     rotatePoint(point2, rotMtx, ways1[i+1], screenCenter);
 
     // Draw line
-    display.drawLine(point1[0], 240-point1[1], point2[0], 240-point2[1], WHITE);
+    display.drawWideLine(point1[0], 240-point1[1], point2[0], 240-point2[1], 2, WHITE);
     // draw_line(display, point1[0], 240-point1[1], point2[0], 240-point2[1], 1, WHITE);
 
     // Copy point2 into point1 for next line segment
     memcpy(point1, point2, sizeof(int)*2);
   }
   long t_2 = millis();
+  display.pushSprite(0, 0);
   long t_3 = millis();
 
   int t_clear = t_1 - t_start;
