@@ -1,4 +1,5 @@
 #include <serialutils.h>
+#include "HWCDC.h"
 
 Serout sout;
 

@@ -14,7 +14,7 @@ UIRenderer::UIRenderer() :
 
 }
 
-bool UIRenderer::initializeMap(SharedSPISDCard* sd) {
+bool UIRenderer::initializeMap(SDCard* sd) {
     if(_hasHeader) {
         if(!_mapRenderer.initialize(_header, sd, _disp)) {
             return false;
@@ -28,7 +28,7 @@ bool UIRenderer::initializeMap(SharedSPISDCard* sd) {
     }
 };
 
-void UIRenderer::setDisplay(SharedSPIDisplay* display) {
+void UIRenderer::setDisplay(Display* display) {
     _disp = display;
     _hasDisplay = true;
 }

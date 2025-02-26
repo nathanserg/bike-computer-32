@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <screenelements.h>
 #include <vector>
-#include <sharedspidisplay.h>
+#include <display.h>
 #include <globalconfig.h>
 
 /*
@@ -29,7 +29,7 @@ public:
     Screen() : hasStatusBar(false), hasMap(false) {};
     bool hasStatusBar, hasMap;
     virtual void reset() = 0;
-    virtual bool render(SharedSPIDisplay* display) = 0;
+    virtual bool render(Display* display) = 0;
 };
 
 
@@ -81,7 +81,7 @@ public:
 
     };
 
-    bool render(SharedSPIDisplay* display) {
+    bool render(Display* display) {
         // Update elements based on status
         if(displayOK < 0) _checkDisplay.setText("ER");
         if(gnssOK < 0) _checkGnss.setText("ER");
@@ -117,25 +117,27 @@ extern BootScreen BOOTSCREEN;
 class FixWaitingScreen : public Screen {
 
 private:
-    int textSize = 2;
-    int spinnerSize = 15;
-    int rows[1] = {5};
-    int cols[2] = {5, 120};
+    int textSize = 4;
+    int spinnerSize = 100;
+    int rows[3] = {70, 110, 175};
+    int cols[3] = {30, 65, 134};
 
-    ScreenText _waitingText = ScreenText(cols[0], rows[0], textSize, "Fixing");
+    ScreenText _waitingText1 = ScreenText(cols[0], rows[0], textSize, "Searching for");
+    ScreenText _waitingText2 = ScreenText(cols[1], rows[1], textSize, "satellites");
     ScreenText _dummyText = ScreenText(0, 0, textSize, " ");
-    ScreenDoubleCircleSpinner _aquiringSpinner = ScreenDoubleCircleSpinner(cols[1], rows[0], spinnerSize, &_dummyText);
+    ScreenDoubleCircleSpinner _aquiringSpinner = ScreenDoubleCircleSpinner(cols[2], rows[2], spinnerSize, &_dummyText, 8);
 public:
 
     FixWaitingScreen() : Screen() {
         hasStatusBar = true;
-        _elements.push_back(&_waitingText);
+        _elements.push_back(&_waitingText1);
+        _elements.push_back(&_waitingText2);
         _elements.push_back(&_aquiringSpinner);
     }
 
     void reset() {};
     
-    bool render(SharedSPIDisplay* display) {
+    bool render(Display* display) {
         // Render elements
         for(auto it : _elements) {
             it->step();
@@ -163,7 +165,7 @@ public:
 
     void reset() {};
 
-    bool render(SharedSPIDisplay* display) {
+    bool render(Display* display) {
         return true;
     };
 

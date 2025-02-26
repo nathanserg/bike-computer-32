@@ -32,12 +32,10 @@
  *      Display module
  * 
 **/
-#define BLACK 0
-#define WHITE 1
 
-#define DISPLAY_WIDTH 144
-#define DISPLAY_HEIGHT 168
-#define POSITION_MARKER_SIZE 8
+#define DISPLAY_WIDTH 368
+#define DISPLAY_HEIGHT 448
+#define POSITION_MARKER_SIZE 10
 
 
 /**
@@ -56,7 +54,7 @@
 **/
 
 // Default map zoom level. 1.0 means that exactly one tile fits on the display.
-#define DETAULT_ZOOM_LEVEL 1.25
+#define DETAULT_ZOOM_LEVEL 2.5
 
 // Number of tiles per dimension to keep in memory. Must be an uneven number > 1
 #define RENDER_TILES_PER_DIM 3
@@ -76,14 +74,14 @@
  *      Settings for UI
  * 
 **/
-#define TARGET_FPS 60
+#define TARGET_FPS 20
 
-#define BOOTSCREEN_SPINNER_SIZE 10
-#define BOOTSCREEN_TEXT_SIZE 2
+#define BOOTSCREEN_SPINNER_SIZE 20
+#define BOOTSCREEN_TEXT_SIZE 4
 
 // Statusbar
 // Number of characters per stat in the status bar, including terminator
-#define N_CHAR_PER_STAT 6
+#define N_CHAR_PER_STAT 8
 // Status bar element codes:
 // 0 = time
 // 1 = date
@@ -95,7 +93,7 @@
 // Left element of status bar
 #define LEFT_STAT 0
 // Right element of status bar
-#define RIGHT_STAT 3
+#define RIGHT_STAT 6
 
 
 
