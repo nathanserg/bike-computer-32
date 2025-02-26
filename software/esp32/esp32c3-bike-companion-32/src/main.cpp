@@ -1,15 +1,17 @@
 #include <Arduino.h>
 #include <FS.h>
-#include <SD.h>
+#include <SD_MMC.h>
 #include <SPI.h>
 #include <MicroNMEA.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SharpMem.h>
+#include "Arduino_GFX_Library.h"
+#include "Arduino_DriveBus_Library.h"
+#include <ESP_IOExpander_Library.h>
+#include "pin_config.h"
+#include "HWCDC.h"
 
 #include <gnssmodule.h>
-#include <sharedspisdcard.h>
-#include <sharedspidisplay.h>
-#include <sharedspimutex.h>
+#include <sdcard.h>
+#include <display.h>
 #include <simpletile.h>
 #include <constgeoposition.h>
 #include <tileblockrenderer.h>
@@ -35,30 +37,53 @@ SimpleTile::Header header;
 uint16_t currHeading = 0;
 
 // Fixed position provider for debugging
-GeoPosition currPos(48.136223, 11.594579);
+GeoPosition currPos(47.3576820, 8.5183733);
 ConstGeoPosition mockPosProvider(currPos, currHeading);
-
-SharedSPIDisplay display(DISPLAY_CS);
-SharedSPISDCard sdcard(SDCARD_CS);
+Display display;
+SDCard sdcard;
 GNSSModule gnss(0);
 GPXTrack track;
+
+HWCDC USBSerial;
+
+#define _EXAMPLE_CHIP_CLASS(name, ...) ESP_IOExpander_##name(__VA_ARGS__)
+#define EXAMPLE_CHIP_CLASS(name, ...) _EXAMPLE_CHIP_CLASS(name, ##__VA_ARGS__)
+
+ESP_IOExpander *expander = NULL;
+
+Arduino_DataBus *bus = new Arduino_ESP32QSPI(
+  LCD_CS /* CS */, LCD_SCLK /* SCK */, LCD_SDIO0 /* SDIO0 */, LCD_SDIO1 /* SDIO1 */,
+  LCD_SDIO2 /* SDIO2 */, LCD_SDIO3 /* SDIO3 */);
+
+Arduino_GFX *gfx = new Arduino_SH8601(bus, -1 /* RST */,
+                                      0 /* rotation */, false /* IPS */, LCD_WIDTH, LCD_HEIGHT);
+
 
 InterpPositionProvider ipos(&gnss, ((float) GNSS_MIN_UPDATE_TIME_MS) / ((float) TARGET_FRAME_TIME_MS));
 
 // Path to map-file on SD-card
-const char binary_path[] = "/map.bin";
+const char binary_path[] = "/switzerland.bin";
 // Path to gpx-track file on SD-card
 const char gpx_path[] = "/track.gpx";
 
 void setup() {
   sleep(2);
-  SPI.setFrequency(SPI_FREQ);
-  SPI.begin();
-  Serial.begin(9600);
 
   sout.info() <= "Bike-Companion-32";
   sout.info() << "Build-date: " <= __DATE__;
+
+  Wire.begin(IIC_SDA, IIC_SCL);
+  expander = new EXAMPLE_CHIP_CLASS(TCA95xx_8bit,
+                                    (i2c_port_t)0, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000,
+                                    IIC_SCL, IIC_SDA);
   
+  expander->init();
+  expander->begin();
+  expander->printStatus();
+  expander->pinMode(7, OUTPUT);
+  expander->printStatus();
+  expander->digitalWrite(7, HIGH);
+
   display.initialize();
   gnss.initialize();
   sdcard.initialize();

@@ -35,7 +35,7 @@ TileBlockRenderer::TileBlockRenderer()
     _zoomLevel = DETAULT_ZOOM_LEVEL;
 }
 
-bool TileBlockRenderer::initialize(SimpleTile::Header* mapHeader, SharedSPISDCard* sd, SharedSPIDisplay* display) {
+bool TileBlockRenderer::initialize(SimpleTile::Header* mapHeader, SDCard* sd, Display* display) {
     _header = mapHeader;
     _sd = sd;
     _display = display;
@@ -221,7 +221,7 @@ void TileBlockRenderer::render(LocalGeoPosition& center) {
                 y0,
                 x1,
                 y1,
-                2, BLACK
+                2, WHITE
             );
 
             p += 2;
@@ -280,7 +280,7 @@ void TileBlockRenderer::renderGPX(LocalGeoPosition& center) {
                     y0,
                     x1,
                     y1,
-                    6, BLACK
+                    6, WHITE
                 );
             }
         }

@@ -1,8 +1,8 @@
 #ifndef _TILEBLOCKRENDERER_H
 #define _TILEBLOCKRENDERER_H
 
-#include <sharedspidisplay.h>
-#include <sharedspisdcard.h>
+#include <display.h>
+#include <sdcard.h>
 #include <geoposition.h>
 #include <geopositionprovider.h>
 
@@ -29,8 +29,8 @@ private:
     int* _offsetDirectionMap;
 
     SimpleTile::Header* _header;
-    SharedSPISDCard* _sd;
-    SharedSPIDisplay* _display;
+    SDCard* _sd;
+    Display* _display;
     GPXTrack* _track;
     GeoPositionProvider* _positionProvider;
 
@@ -43,7 +43,7 @@ private:
 public:
     TileBlockRenderer();
 
-    bool initialize(SimpleTile::Header* mapHeader, SharedSPISDCard* sd, SharedSPIDisplay* display);
+    bool initialize(SimpleTile::Header* mapHeader, SDCard* sd, Display* display);
     void setPositionProvider(GeoPositionProvider* newPositionProvider);
     void setGPXTrackIn(GPXTrack* track);
     void setZoom(float newZoomLevel);

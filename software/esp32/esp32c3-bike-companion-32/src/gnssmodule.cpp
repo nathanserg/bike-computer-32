@@ -6,26 +6,26 @@ GNSSModule::GNSSModule(uint8_t uartNumber)
     : gps(uartNumber), nmea(messageBuffer, sizeof(messageBuffer)), GeoPositionProvider() {};
 
 void GNSSModule::initialize() {
-    gps.begin(115200, SERIAL_8N1, -1, -1);
+    gps.begin(115200, SERIAL_8N1, 44, 43);
 
     while(!gps.available()) {
         UIRENDERER.step();
     }
 
     // Activate multi constellation
-    if(GNSS_ENABLE_MULTI_CONSTELLATION) MicroNMEA::sendSentence(gps, "$PMTK353,1,1,1,0,0");
-    UIRENDERER.delay(500);
+    // if(GNSS_ENABLE_MULTI_CONSTELLATION) MicroNMEA::sendSentence(gps, "$PMTK353,1,1,1,0,0");
+    // UIRENDERER.delay(500);
 
-    // Enable SBAS
-    MicroNMEA::sendSentence(gps, "$PMTK313,1");
-    UIRENDERER.delay(500);
+    // // Enable SBAS
+    // //MicroNMEA::sendSentence(gps, "$PMTK313,1");
+    // //UIRENDERER.delay(500);
 
-    // Enable Low-Power operation
-    if(GNSS_ENABLE_LOW_POWER) MicroNMEA::sendSentence(gps, "$PQGLP,W,1,0");
-    UIRENDERER.delay(500);
+    // // Enable Low-Power operation
+    // if(GNSS_ENABLE_LOW_POWER) MicroNMEA::sendSentence(gps, "$PQGLP,W,1,0");
+    // UIRENDERER.delay(500);
 
-    // Enable 10Hz refresh rate
-    if(GNSS_ENABLE_HIGH_REFRESH) MicroNMEA::sendSentence(gps, "$PMTK220,100");
+    // // Enable 10Hz refresh rate
+    // if(GNSS_ENABLE_HIGH_REFRESH) MicroNMEA::sendSentence(gps, "$PMTK220,100");
     
     BOOTSCREEN.gnssOK = true;
 

@@ -2,7 +2,7 @@
 #define _SCREENELEMENTS_H
 
 #include <Arduino.h>
-#include <sharedspidisplay.h>
+#include <display.h>
 
 /*
 
@@ -20,7 +20,7 @@ class ScreenElement {
 public:
     ScreenElement(uint16_t x, uint16_t y) : x(x), y(y) {};
     uint16_t x, y;
-    virtual void draw(SharedSPIDisplay* display) = 0;
+    virtual void draw(Display* display) = 0;
     virtual void step() = 0;
 };
 
@@ -50,7 +50,7 @@ public:
 
     };
 
-    void draw(SharedSPIDisplay* display) {
+    void draw(Display* display) {
         display->setCursor(x, y);
         display->setTextSize(_textSize);
         display->write(_text, 1);
@@ -88,16 +88,16 @@ public:
 class ScreenCircleSpinner : public ScreenElement {
 
 private:
-    uint16_t _tick, _halfSize;
-    bool _color, _isStatic, _centerVisible;
+    uint16_t _tick, _halfSize, _color;
+    bool _isStatic, _centerVisible;
     uint8_t _thickness, _speed;
     ScreenElement* _centerElement;
 
 public:
-    ScreenCircleSpinner(uint16_t x, uint16_t y, uint16_t size, ScreenElement* centerElement, uint8_t thickness=2, uint8_t speed=1, u16_t tickoffset=0) : ScreenElement(x, y), 
-        _halfSize(size/2), _tick(tickoffset), _color(BLACK), _centerElement(centerElement), _isStatic(false), _centerVisible(false), _thickness(thickness), _speed(speed) {};
+    ScreenCircleSpinner(uint16_t x, uint16_t y, uint16_t size, ScreenElement* centerElement, uint8_t thickness=3, uint8_t speed=2, u16_t tickoffset=0) : ScreenElement(x, y), 
+        _halfSize(size/2), _tick(tickoffset), _color(WHITE), _centerElement(centerElement), _isStatic(false), _centerVisible(false), _thickness(thickness), _speed(speed) {};
 
-    void draw(SharedSPIDisplay* display) {
+    void draw(Display* display) {
         if(!_isStatic) {
             int16_t xc = x + _halfSize * (1.0 + sin(_tick*DEG_TO_RAD));
             int16_t yc = y + _halfSize * (1.0 + cos(_tick*DEG_TO_RAD));
@@ -144,8 +144,8 @@ class ScreenDoubleCircleSpinner : public ScreenElement {
     ScreenCircleSpinner _s1, _s2;
 
 public:
-    ScreenDoubleCircleSpinner(uint16_t x, uint16_t y, uint16_t size, ScreenElement* centerElement, uint8_t thickness=2, uint8_t speed=1, uint16_t offset=180) : ScreenElement(x, y), 
-        _halfSize(size/2), _tick(0), _color(BLACK), _isStatic(false), _centerVisible(false), _thickness(thickness), _speed(speed),
+    ScreenDoubleCircleSpinner(uint16_t x, uint16_t y, uint16_t size, ScreenElement* centerElement, uint8_t thickness=3, uint8_t speed=2, uint16_t offset=180) : ScreenElement(x, y), 
+        _halfSize(size/2), _tick(0), _color(WHITE), _isStatic(false), _centerVisible(false), _thickness(thickness), _speed(speed),
         _s1(x, y, size, centerElement, thickness, speed),
         _s2(x, y, size, &_s1, thickness, speed, offset) {        
 
@@ -153,7 +153,7 @@ public:
 
         };
 
-    void draw(SharedSPIDisplay* display) {
+    void draw(Display* display) {
         if(!_isStatic) {
             _s2.step();
             _s2.draw(display);

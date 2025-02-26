@@ -3,7 +3,7 @@
 
 #include <tileblockrenderer.h>
 #include <geopositionprovider.h>
-#include <sharedspidisplay.h>
+#include <display.h>
 #include <gnssmodule.h>
 #include <screens.h>
 #include <globalconfig.h>
@@ -26,7 +26,7 @@ private:
     Screen* _currentScreen;
 
     StatusBarElement _leftStat, _rightStat;
-    SharedSPIDisplay* _disp;
+    Display* _disp;
     GNSSModule* _gnss;
     SimpleTile::Header* _header;
     GeoPositionProvider* _posProvider;
@@ -41,8 +41,8 @@ private:
 public:
     UIRenderer();
 
-    bool initializeMap(SharedSPISDCard* sd);
-    void setDisplay(SharedSPIDisplay* display);
+    bool initializeMap(SDCard* sd);
+    void setDisplay(Display* display);
     void setGNSS(GNSSModule* gnss);
     void setPositionProvider(GeoPositionProvider* positionProvider);
     void setScreen(Screen* newScreen);

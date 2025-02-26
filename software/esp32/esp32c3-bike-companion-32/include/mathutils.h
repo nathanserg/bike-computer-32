@@ -2,7 +2,7 @@
 #define _MATHUTILS_H
 
 #include <Arduino.h>
-#include <sharedspidisplay.h>
+#include <display.h>
 
 /*
 
