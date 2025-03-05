@@ -76,8 +76,8 @@
 **/
 #define TARGET_FPS 20
 
-#define BOOTSCREEN_SPINNER_SIZE 20
 #define BOOTSCREEN_TEXT_SIZE 4
+#define BOOTSCREEN_SPINNER_SIZE 5*BOOTSCREEN_TEXT_SIZE
 
 // Statusbar
 // Number of characters per stat in the status bar, including terminator

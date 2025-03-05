@@ -36,10 +36,11 @@ public:
 class BootScreen : public Screen {
 
 private:
-    int textSize = 2;
-    int spinnerSize = 15;
-    int rows[5] = {5, 35, 65, 95, 125};
-    int cols[2] = {5, 120};
+    int textSize = BOOTSCREEN_TEXT_SIZE;
+    int spinnerSize = BOOTSCREEN_SPINNER_SIZE;
+    int textSpacing = 2*BOOTSCREEN_SPINNER_SIZE + 10;
+    int rows[5] = {100, 100 + textSpacing, 100 + 2*textSpacing, 100 + 3*textSpacing, 100 + 4*textSpacing};
+    int cols[2] = {40, 100 + 40*textSize};
 
     ScreenText _labelDisplay = ScreenText(cols[0], rows[0], textSize, "Display");
     ScreenText _labelGnss = ScreenText(cols[0], rows[1], textSize, "GNSS");
