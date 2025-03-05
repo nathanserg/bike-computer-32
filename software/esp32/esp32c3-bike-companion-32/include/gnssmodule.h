@@ -34,10 +34,11 @@ public:
     uint8_t getMinute();
     uint8_t getDay();
     uint8_t getMonth();
-    float getSpeed();
+    uint8_t getSpeed();
     uint8_t getSats();
     double getLatitude();
     double getLongitude();
+    uint16_t getAltitude();
 
 private:
 

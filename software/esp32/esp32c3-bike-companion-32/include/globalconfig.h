@@ -77,7 +77,7 @@
 #define TARGET_FPS 20
 
 #define BOOTSCREEN_TEXT_SIZE 4
-#define BOOTSCREEN_SPINNER_SIZE 5*BOOTSCREEN_TEXT_SIZE
+#define BOOTSCREEN_SPINNER_SIZE 28
 
 // Statusbar
 // Number of characters per stat in the status bar, including terminator
@@ -90,10 +90,14 @@
 // 4 = lat
 // 5 = lon
 // 6 = nsats
-// Left element of status bar
-#define LEFT_STAT 0
-// Right element of status bar
-#define RIGHT_STAT 6
+// 7 = altitutde
+// 8 = incline // TODO
+// 9 = time since start // TODO
+// elements of status bar
+#define STAT_1 7
+#define STAT_2 2
+#define STAT_3 0
+#define STAT_4 6
 
 
 

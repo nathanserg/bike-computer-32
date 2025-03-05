@@ -36,6 +36,7 @@ class ScreenText : public ScreenElement {
 
 private:
     uint8_t _textSize;
+    uint16_t _textColor = WHITE;
     char _text[SCREENTEXT_MAX_LENGTH];
 
 public:
@@ -47,13 +48,24 @@ public:
     ScreenText(uint16_t x, uint16_t y, uint8_t textSize, const char* text) : ScreenElement(x, y), 
         _textSize(textSize) {
         setText(text);
+    };
 
+    ScreenText(uint16_t x, uint16_t y, uint8_t textSize, char* text, uint16_t textColor) : ScreenElement(x, y), 
+        _textSize(textSize), _textColor(textColor) {
+        setText(text, textColor);
+    };
+
+    ScreenText(uint16_t x, uint16_t y, uint8_t textSize, const char* text, uint16_t textColor) : ScreenElement(x, y), 
+        _textSize(textSize), _textColor(textColor){
+        setText(text, textColor);
     };
 
     void draw(Display* display) {
         display->setCursor(x, y);
         display->setTextSize(_textSize);
+        display->setTextColor(_textColor);
         display->write(_text, 1);
+        display->setTextColor(WHITE);
     };
 
     void setText(char* text) {
@@ -65,6 +77,16 @@ public:
         }
     }
 
+    void setText(char* text, uint16_t color) {
+        uint16_t newTextLength = strlen(text);
+        if(newTextLength > SCREENTEXT_MAX_LENGTH) {
+            strncpy(_text, text, SCREENTEXT_MAX_LENGTH);
+        } else {
+            strcpy(_text, text);
+        }
+        _textColor = color;
+    }
+
     void setText(const char* text) {
         uint16_t newTextLength = strlen(text);
         if(newTextLength > SCREENTEXT_MAX_LENGTH) {
@@ -72,6 +94,16 @@ public:
         } else {
             strcpy(_text, text);
         }
+    }
+
+    void setText(const char* text, uint16_t color) {
+        uint16_t newTextLength = strlen(text);
+        if(newTextLength > SCREENTEXT_MAX_LENGTH) {
+            strncpy(_text, text, SCREENTEXT_MAX_LENGTH);
+        } else {
+            strcpy(_text, text);
+        }
+        _textColor = color;
     }
 
     void step() {

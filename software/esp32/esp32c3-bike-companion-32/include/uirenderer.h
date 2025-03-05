@@ -16,16 +16,20 @@
 
 class UIRenderer {
 
-    enum StatusBarElement {time, date, speed, heading, lat, lon, nsats, err};
+    enum StatusBarElement {time, date, speed, heading, lat, lon, nsats, alt, err};
 
 private:
     bool _hasGNSS, _hasPositionProvider, _hasHeader, _hasDisplay, _hasTrackIn;
     unsigned long _tLastRender, _tLoopRender;
     char* _textBuffer;
+    char* _stat_1_str;
+    char* _stat_2_str;
+    char* _stat_3_str;
+    char* _stat_4_str;
 
     Screen* _currentScreen;
 
-    StatusBarElement _leftStat, _rightStat;
+    StatusBarElement _stat_1, _stat_2, _stat_3, _stat_4;
     Display* _disp;
     GNSSModule* _gnss;
     SimpleTile::Header* _header;
@@ -36,6 +40,7 @@ private:
     void renderBootScreen();
     void renderInfoScreen();
     void renderStatusBar();
+    void getStat(StatusBarElement ele, char* textBuff);
     void renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator=false);
 
 public:

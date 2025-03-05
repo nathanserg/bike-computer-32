@@ -82,13 +82,13 @@ uint8_t GNSSModule::getMonth() {
     return nmea.getMonth();
 }
 
-float GNSSModule::getSpeed() {
+uint8_t GNSSModule::getSpeed() {
     float tmp = (float) nmea.getSpeed();
     // Convert to knot
     tmp /= 1000.0;
     // Convert to kph
     tmp *= 1.852;
-    return tmp;
+    return int(tmp);
 }
 
 uint8_t GNSSModule::getSats() {
@@ -101,6 +101,12 @@ double GNSSModule::getLatitude() {
 
 double GNSSModule::getLongitude() {
     return (double) nmea.getLongitude() *1e-6;
+}
+
+uint16_t GNSSModule::getAltitude() {
+    long alt;
+    nmea.getAltitude(alt);
+    return int(alt *1e-3);
 }
 
 bool GNSSModule::step() {
