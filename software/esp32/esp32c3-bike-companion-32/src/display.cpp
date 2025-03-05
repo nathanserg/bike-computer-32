@@ -66,12 +66,17 @@ void Display::drawCenterMarker() {
     sprite.fillTriangle(x0, y0, x1, y1, x2, y2, WHITE);
 };
 
-void Display::drawStatusBar(const char* statusStr) {
+void Display::drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4) {
     sprite.fillRect(0, DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_HEIGHT-DISPLAY_WIDTH, BLACK);
-    sprite.drawWideLine(0, DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_WIDTH, 4, WHITE);
+    sprite.drawWideLine(0, DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_WIDTH, 3, WHITE);
+    sprite.drawWideLine(DISPLAY_WIDTH_HALF, DISPLAY_WIDTH, DISPLAY_WIDTH_HALF, DISPLAY_HEIGHT, 3, WHITE);
+    sprite.drawWideLine(0, (DISPLAY_WIDTH + DISPLAY_HEIGHT)/2, DISPLAY_WIDTH, (DISPLAY_WIDTH + DISPLAY_HEIGHT)/2, 3, WHITE);
     sprite.setTextSize(3);
     sprite.setTextColor(WHITE, BLACK);
-    sprite.drawString(statusStr, 7, DISPLAY_WIDTH+6);
+    sprite.drawString(stat1, 60, DISPLAY_WIDTH+10);
+    sprite.drawString(stat2, DISPLAY_WIDTH_HALF + 30, DISPLAY_WIDTH+10);
+    sprite.drawString(stat3, 50, DISPLAY_WIDTH+50);
+    sprite.drawString(stat4, DISPLAY_WIDTH_HALF + 30, DISPLAY_WIDTH+50);
 };
 
 void Display::refresh() {
@@ -111,7 +116,6 @@ void Display::drawQuaterCircle(int16_t x0, int16_t y0, int16_t r, uint8_t corner
 };
 
 void Display::write(const char* str, bool hold) {
-    sprite.setTextColor(WHITE, BLACK);
     sprite.drawString(str, sprite.getCursorX(), sprite.getCursorY());
     if(!hold) {
         disp->draw16bitRGBBitmap(0, 0, (uint16_t*)sprite.getPointer(), DISPLAY_WIDTH, DISPLAY_HEIGHT);

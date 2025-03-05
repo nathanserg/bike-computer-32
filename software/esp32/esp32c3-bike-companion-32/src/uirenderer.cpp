@@ -6,9 +6,15 @@
 UIRenderer::UIRenderer() :
     _currentScreen(&BOOTSCREEN), _hasGNSS(false), _hasHeader(false), _hasPositionProvider(false) {
 
-    _leftStat = (StatusBarElement) LEFT_STAT;
-    _rightStat = (StatusBarElement) RIGHT_STAT;
+    _stat_1 = (StatusBarElement) STAT_1;
+    _stat_2 = (StatusBarElement) STAT_2;
+    _stat_3 = (StatusBarElement) STAT_3;
+    _stat_4 = (StatusBarElement) STAT_4;
     _textBuffer = new char[(N_CHAR_PER_STAT + 1)*2];
+    _stat_1_str = new char[N_CHAR_PER_STAT ];
+    _stat_2_str = new char[N_CHAR_PER_STAT ];
+    _stat_3_str = new char[N_CHAR_PER_STAT ];
+    _stat_4_str = new char[N_CHAR_PER_STAT ];
 
     _tLastRender = millis();
 
@@ -99,42 +105,34 @@ bool UIRenderer::step() {
     return true;
 }
 
+void UIRenderer::getStat(StatusBarElement ele, char* textBuff) {
+
+    if(ele == speed || ele == heading || ele == lat || ele == lon) {
+        // Requires position provider
+        if(!_hasPositionProvider) {
+            renderStat(err, textBuff);
+        } else {
+            renderStat(ele, textBuff);
+        }
+    } else {
+        // Requires GNSS
+        if(!_hasGNSS) {
+            renderStat(err, textBuff);
+        } else {
+            renderStat(ele, textBuff);
+        }
+    }
+}
+
+
 void UIRenderer::renderStatusBar() {
 
-    // Render left status
-    if(_leftStat == speed || _leftStat == heading || _leftStat == lat || _leftStat == lon) {
-        // Requires position provider
-        if(!_hasPositionProvider) {
-            renderStat(err, _textBuffer, true);
-        } else {
-            renderStat(_leftStat, _textBuffer, true);
-        }
-    } else {
-        // Requires GNSS
-        if(!_hasGNSS) {
-            renderStat(err, _textBuffer, true);
-        } else {
-            renderStat(_leftStat, _textBuffer, true);
-        }
-    }
+    getStat(_stat_1, _stat_1_str);
+    getStat(_stat_2, _stat_2_str);
+    getStat(_stat_3, _stat_3_str);
+    getStat(_stat_4, _stat_4_str);
 
-    // Render right status
-    if(_rightStat == speed || _rightStat == heading || _rightStat == lat || _rightStat == lon) {
-        // Requires position provider
-        if(!_hasPositionProvider) {
-            renderStat(err, _textBuffer + N_CHAR_PER_STAT);
-        } else {
-            renderStat(_rightStat, _textBuffer + N_CHAR_PER_STAT);
-        }
-    } else {
-        // Requires GNSS
-        if(!_hasGNSS) {
-            renderStat(err, _textBuffer + N_CHAR_PER_STAT);
-        } else {
-            renderStat(_rightStat, _textBuffer + N_CHAR_PER_STAT);
-        }
-    }
-    _disp->drawStatusBar(_textBuffer);
+    _disp->drawStatusBar(_stat_1_str, _stat_2_str, _stat_3_str, _stat_4_str);
 }
 
 void UIRenderer::renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator) {
@@ -155,13 +153,13 @@ void UIRenderer::renderStat(StatusBarElement ele, char* textBuff, bool removeTer
 
     case speed:
         // sout <= "Printing speed";
-        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "%f", _gnss->getSpeed());
+        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "%d km/h", _gnss->getSpeed());
         // sprintf(textBuff, "%04.0f", (float) 541.653);
         break;
 
     case heading:
         // sout <= "Printing heading";
-        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "HE%03i", _posProvider->getHeading());
+        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "HE :%03i", _posProvider->getHeading());
         break;
 
     case lat:
@@ -176,7 +174,12 @@ void UIRenderer::renderStat(StatusBarElement ele, char* textBuff, bool removeTer
 
     case nsats:
         // sout <= "Printing nsats";
-        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "SAT%02i", _gnss->getSats());
+        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "SAT: %d", _gnss->getSats());
+        break;
+
+    case alt:
+        // sout <= "Printing alt";
+        n_print_chars = snprintf(textBuff, N_CHAR_PER_STAT, "%dm", _gnss->getAltitude());
         break;
     
     default:

@@ -51,7 +51,7 @@ public:
 
     void refresh();
     void drawCenterMarker();
-    void drawStatusBar(const char* statusStr);
+    void drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4);
 
     /*******************************************************************************
      * Modified Bresenham algorithm based on the implementation from wikipeda 

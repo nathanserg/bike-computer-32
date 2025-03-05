@@ -38,7 +38,7 @@ class BootScreen : public Screen {
 private:
     int textSize = BOOTSCREEN_TEXT_SIZE;
     int spinnerSize = BOOTSCREEN_SPINNER_SIZE;
-    int textSpacing = 2*BOOTSCREEN_SPINNER_SIZE + 10;
+    int textSpacing = 10*BOOTSCREEN_TEXT_SIZE + 10;
     int rows[5] = {100, 100 + textSpacing, 100 + 2*textSpacing, 100 + 3*textSpacing, 100 + 4*textSpacing};
     int cols[2] = {40, 100 + 40*textSize};
 
@@ -49,17 +49,17 @@ private:
     ScreenText _labelTrack = ScreenText(cols[0], rows[4], textSize, "Track");
 
     // Note: these labels are used as center elements for the spinners. Do not add them to the _elements list.
-    ScreenText _checkDisplay = ScreenText(cols[1], rows[0], textSize, "OK");
-    ScreenText _checkGnss = ScreenText(cols[1], rows[1], textSize, "OK");
-    ScreenText _checkSD = ScreenText(cols[1], rows[2], textSize, "OK");
-    ScreenText _checkMap = ScreenText(cols[1], rows[3], textSize, "OK");
-    ScreenText _checkTrack = ScreenText(cols[1], rows[4], textSize, "OK");
+    ScreenText _checkDisplay = ScreenText(cols[1], rows[0], textSize, "OK", GREEN);
+    ScreenText _checkGnss = ScreenText(cols[1], rows[1], textSize, "OK", GREEN);
+    ScreenText _checkSD = ScreenText(cols[1], rows[2], textSize, "OK", GREEN);
+    ScreenText _checkMap = ScreenText(cols[1], rows[3], textSize, "OK", GREEN);
+    ScreenText _checkTrack = ScreenText(cols[1], rows[4], textSize, "OK", GREEN);
 
-    ScreenDoubleCircleSpinner _spinnerDisplay = ScreenDoubleCircleSpinner(cols[1], rows[0], spinnerSize, &_checkDisplay);
-    ScreenDoubleCircleSpinner _spinnerGnss = ScreenDoubleCircleSpinner(cols[1], rows[1], spinnerSize, &_checkGnss);
-    ScreenDoubleCircleSpinner _spinnerSD = ScreenDoubleCircleSpinner(cols[1], rows[2], spinnerSize, &_checkSD);
-    ScreenDoubleCircleSpinner _spinnerMap = ScreenDoubleCircleSpinner(cols[1], rows[3], spinnerSize, &_checkMap);
-    ScreenDoubleCircleSpinner _spinnerTrack = ScreenDoubleCircleSpinner(cols[1], rows[4], spinnerSize, &_checkTrack);
+    ScreenDoubleCircleSpinner _spinnerDisplay = ScreenDoubleCircleSpinner(cols[1], rows[0], spinnerSize, &_checkDisplay, 4);
+    ScreenDoubleCircleSpinner _spinnerGnss = ScreenDoubleCircleSpinner(cols[1], rows[1], spinnerSize, &_checkGnss, 4);
+    ScreenDoubleCircleSpinner _spinnerSD = ScreenDoubleCircleSpinner(cols[1], rows[2], spinnerSize, &_checkSD, 4);
+    ScreenDoubleCircleSpinner _spinnerMap = ScreenDoubleCircleSpinner(cols[1], rows[3], spinnerSize, &_checkMap, 4);
+    ScreenDoubleCircleSpinner _spinnerTrack = ScreenDoubleCircleSpinner(cols[1], rows[4], spinnerSize, &_checkTrack, 4);
 
 public:
     int8_t displayOK, gnssOK, mapOK, sdOK, trackOK;
@@ -84,11 +84,11 @@ public:
 
     bool render(Display* display) {
         // Update elements based on status
-        if(displayOK < 0) _checkDisplay.setText("ER");
-        if(gnssOK < 0) _checkGnss.setText("ER");
-        if(sdOK < 0) _checkSD.setText("ER");
-        if(mapOK < 0) _checkMap.setText("ER");
-        if(trackOK < 0) _checkTrack.setText("ER");
+        if(displayOK < 0) _checkDisplay.setText("ER", RED);
+        if(gnssOK < 0) _checkGnss.setText("ER", RED);
+        if(sdOK < 0) _checkSD.setText("ER", RED);
+        if(mapOK < 0) _checkMap.setText("ER", RED);
+        if(trackOK < 0) _checkTrack.setText("ER", RED);
 
         _spinnerDisplay.setStatic(displayOK != 0);
         _spinnerDisplay.setCenterVisiblilty(displayOK != 0);
