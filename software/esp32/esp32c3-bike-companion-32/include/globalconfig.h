@@ -55,6 +55,11 @@
 
 // Default map zoom level. 1.0 means that exactly one tile fits on the display.
 #define DETAULT_ZOOM_LEVEL 2.5
+#define MIN_ZOOM_LEVEL 1
+#define MAX_ZOOM_LEVEL 3.5
+
+#define ZOOM_LEVEL_MIN_SPEED 2  // km/h
+#define ZOOM_LEVEL_MAX_SPEED 25 // km/h
 
 // Number of tiles per dimension to keep in memory. Must be an uneven number > 1
 #define RENDER_TILES_PER_DIM 3

@@ -28,6 +28,9 @@ bool UIRenderer::initializeMap(SDCard* sd) {
         if(_hasPositionProvider) {
             _mapRenderer.setPositionProvider(_posProvider);
         }
+        if(_hasGNSS) {
+            _mapRenderer.setGNSS(_gnss);
+        }
         return true;
     } else {
         return false;

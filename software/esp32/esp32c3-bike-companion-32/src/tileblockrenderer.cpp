@@ -68,6 +68,11 @@ void TileBlockRenderer::setPositionProvider(GeoPositionProvider* newPositionProv
     _hasPositionProvider = true;
 }
 
+void TileBlockRenderer::setGNSS(GNSSModule* newGNSS) {
+    _gnss = newGNSS;
+    _hasGNSS = true;
+}
+
 void TileBlockRenderer::setGPXTrackIn(GPXTrack* track) {
     _track = track;
     _hasTrackIn = true;
@@ -320,6 +325,7 @@ bool TileBlockRenderer::step(bool holdOn) {
     }
 
     _heading = _positionProvider->getHeading();
+    setZoom(map(_gnss->getSpeed(), ZOOM_LEVEL_MIN_SPEED, ZOOM_LEVEL_MAX_SPEED, MAX_ZOOM_LEVEL * 10, MIN_ZOOM_LEVEL * 10) / 10.0);
     rad2rotMtx(_rotMtxBuf, (360-_heading)*DEG_TO_RAD);
 
     // Get current position and tileID

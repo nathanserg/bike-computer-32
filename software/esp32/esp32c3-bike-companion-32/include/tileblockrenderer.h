@@ -5,6 +5,7 @@
 #include <sdcard.h>
 #include <geoposition.h>
 #include <geopositionprovider.h>
+#include <gnssmodule.h>
 
 /*
 
@@ -16,7 +17,7 @@ class TileBlockRenderer {
 
 private:
 
-    bool _hasPositionProvider, _hasHeader, _hasTrackIn;
+    bool _hasPositionProvider, _hasHeader, _hasTrackIn, _hasGNSS;
     float _zoomLevel, _zoomScale;
     int _heading;
     float* _rotMtxBuf;
@@ -33,6 +34,7 @@ private:
     Display* _display;
     GPXTrack* _track;
     GeoPositionProvider* _positionProvider;
+    GNSSModule* _gnss;
 
     void updateTileBuffer(LocalGeoPosition& center);
     void render(LocalGeoPosition& center);
@@ -45,6 +47,7 @@ public:
 
     bool initialize(SimpleTile::Header* mapHeader, SDCard* sd, Display* display);
     void setPositionProvider(GeoPositionProvider* newPositionProvider);
+    void setGNSS(GNSSModule* newGNSS);
     void setGPXTrackIn(GPXTrack* track);
     void setZoom(float newZoomLevel);
     bool step(bool holdOn=false);
