@@ -33,6 +33,7 @@ TileBlockRenderer::TileBlockRenderer()
     _heading = 0;
     _rotMtxBuf = new float[4];
     _zoomLevel = DETAULT_ZOOM_LEVEL;
+    _trackThickness = 3;
 }
 
 bool TileBlockRenderer::initialize(SimpleTile::Header* mapHeader, SDCard* sd, Display* display) {
@@ -226,7 +227,7 @@ void TileBlockRenderer::render(LocalGeoPosition& center) {
                 y0,
                 x1,
                 y1,
-                2, WHITE
+                _trackThickness, WHITE
             );
 
             p += 2;
@@ -285,7 +286,7 @@ void TileBlockRenderer::renderGPX(LocalGeoPosition& center) {
                     y0,
                     x1,
                     y1,
-                    6, WHITE
+                    _trackThickness, WHITE
                 );
             }
         }
@@ -326,6 +327,7 @@ bool TileBlockRenderer::step(bool holdOn) {
 
     _heading = _positionProvider->getHeading();
     setZoom(map(_gnss->getSpeed(), ZOOM_LEVEL_MIN_SPEED, ZOOM_LEVEL_MAX_SPEED, MAX_ZOOM_LEVEL * 10, MIN_ZOOM_LEVEL * 10) / 10.0);
+    _trackThickness = map(_gnss->getSpeed(), ZOOM_LEVEL_MIN_SPEED, ZOOM_LEVEL_MAX_SPEED, 6, 3);
     rad2rotMtx(_rotMtxBuf, (360-_heading)*DEG_TO_RAD);
 
     // Get current position and tileID

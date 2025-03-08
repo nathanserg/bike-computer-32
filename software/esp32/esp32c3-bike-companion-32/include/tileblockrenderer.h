@@ -18,7 +18,7 @@ class TileBlockRenderer {
 private:
 
     bool _hasPositionProvider, _hasHeader, _hasTrackIn, _hasGNSS;
-    float _zoomLevel, _zoomScale;
+    float _zoomLevel, _zoomScale, _trackThickness;
     int _heading;
     float* _rotMtxBuf;
     uint64_t* _renderTileIds;
