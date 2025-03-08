@@ -95,6 +95,10 @@ bool UIRenderer::step() {
         renderStatusBar();
     }
 
+    if(_currentScreen->hasSattelitesIcon) {
+        renderSattelitesIcon();
+    }
+
 
     _disp->refresh();
 
@@ -136,6 +140,10 @@ void UIRenderer::renderStatusBar() {
     getStat(_stat_4, _stat_4_str);
 
     _disp->drawStatusBar(_stat_1_str, _stat_2_str, _stat_3_str, _stat_4_str);
+}
+
+void UIRenderer::renderSattelitesIcon() {
+    _disp->drawSattelitesIcon(_gnss->getSats());
 }
 
 void UIRenderer::renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator) {
