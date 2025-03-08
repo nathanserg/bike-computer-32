@@ -69,6 +69,7 @@ const char gpx_path[] = "/track.gpx";
 void setup() {
   sleep(2);
 
+  Serial.begin(115200);
   sout.info() <= "Bike-Companion-32";
   sout.info() << "Build-date: " <= __DATE__;
 

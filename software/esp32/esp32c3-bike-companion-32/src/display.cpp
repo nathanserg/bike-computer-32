@@ -79,6 +79,33 @@ void Display::drawStatusBar(const char* stat1, const char* stat2, const char* st
     sprite.drawString(stat4, DISPLAY_WIDTH_HALF + 30, DISPLAY_WIDTH+50);
 };
 
+void Display::drawSattelitesIcon(int8_t nbsattelites) {
+    if (4 < nbsattelites && nbsattelites < 6) {
+        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
+        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
+        sprite.drawWideLine(44, 35, 44, 18, 10, LIGHTGREY);
+        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+    }
+    else if (6 < nbsattelites && nbsattelites < 8) {
+        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
+        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
+        sprite.drawWideLine(44, 35, 44, 18, 10, BLUE);
+        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+    }
+    else if (nbsattelites > 8) {
+        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
+        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
+        sprite.drawWideLine(44, 35, 44, 18, 10, BLUE);
+        sprite.drawWideLine(56, 35, 56, 12, 10, BLUE);
+    }
+    else {
+        sprite.drawWideLine(20, 35, 20, 32, 10, GREEN);
+        sprite.drawWideLine(32, 35, 32, 24, 10, LIGHTGREY);
+        sprite.drawWideLine(44, 35, 44, 18, 10, LIGHTGREY);
+        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+    }
+}
+
 void Display::refresh() {
     disp->draw16bitRGBBitmap(0, 0, (uint16_t*)sprite.getPointer(), DISPLAY_WIDTH, DISPLAY_HEIGHT);
 }

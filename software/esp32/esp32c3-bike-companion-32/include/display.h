@@ -52,6 +52,7 @@ public:
     void refresh();
     void drawCenterMarker();
     void drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4);
+    void drawSattelitesIcon(int8_t nbsattelites);
 
     /*******************************************************************************
      * Modified Bresenham algorithm based on the implementation from wikipeda 

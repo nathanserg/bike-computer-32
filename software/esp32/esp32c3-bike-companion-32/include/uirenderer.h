@@ -40,6 +40,7 @@ private:
     void renderBootScreen();
     void renderInfoScreen();
     void renderStatusBar();
+    void renderSattelitesIcon();
     void getStat(StatusBarElement ele, char* textBuff);
     void renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator=false);
 

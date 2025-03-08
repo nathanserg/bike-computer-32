@@ -26,8 +26,8 @@ protected:
     std::vector<ScreenElement*> _elements;
 
 public:
-    Screen() : hasStatusBar(false), hasMap(false) {};
-    bool hasStatusBar, hasMap;
+    Screen() : hasStatusBar(false), hasMap(false), hasSattelitesIcon(false) {};
+    bool hasStatusBar, hasMap, hasSattelitesIcon;
     virtual void reset() = 0;
     virtual bool render(Display* display) = 0;
 };
@@ -49,11 +49,11 @@ private:
     ScreenText _labelTrack = ScreenText(cols[0], rows[4], textSize, "Track");
 
     // Note: these labels are used as center elements for the spinners. Do not add them to the _elements list.
-    ScreenText _checkDisplay = ScreenText(cols[1], rows[0], textSize, "OK", GREEN);
-    ScreenText _checkGnss = ScreenText(cols[1], rows[1], textSize, "OK", GREEN);
-    ScreenText _checkSD = ScreenText(cols[1], rows[2], textSize, "OK", GREEN);
-    ScreenText _checkMap = ScreenText(cols[1], rows[3], textSize, "OK", GREEN);
-    ScreenText _checkTrack = ScreenText(cols[1], rows[4], textSize, "OK", GREEN);
+    ScreenText _checkDisplay = ScreenText(cols[1], rows[0], textSize, "OK", BLUE);
+    ScreenText _checkGnss = ScreenText(cols[1], rows[1], textSize, "OK", BLUE);
+    ScreenText _checkSD = ScreenText(cols[1], rows[2], textSize, "OK", BLUE);
+    ScreenText _checkMap = ScreenText(cols[1], rows[3], textSize, "OK", BLUE);
+    ScreenText _checkTrack = ScreenText(cols[1], rows[4], textSize, "OK", BLUE);
 
     ScreenDoubleCircleSpinner _spinnerDisplay = ScreenDoubleCircleSpinner(cols[1], rows[0], spinnerSize, &_checkDisplay, 4);
     ScreenDoubleCircleSpinner _spinnerGnss = ScreenDoubleCircleSpinner(cols[1], rows[1], spinnerSize, &_checkGnss, 4);
@@ -84,11 +84,11 @@ public:
 
     bool render(Display* display) {
         // Update elements based on status
-        if(displayOK < 0) _checkDisplay.setText("ER", RED);
-        if(gnssOK < 0) _checkGnss.setText("ER", RED);
-        if(sdOK < 0) _checkSD.setText("ER", RED);
-        if(mapOK < 0) _checkMap.setText("ER", RED);
-        if(trackOK < 0) _checkTrack.setText("ER", RED);
+        if(displayOK < 0) _checkDisplay.setText("ER", GREEN);
+        if(gnssOK < 0) _checkGnss.setText("ER", GREEN);
+        if(sdOK < 0) _checkSD.setText("ER", GREEN);
+        if(mapOK < 0) _checkMap.setText("ER", GREEN);
+        if(trackOK < 0) _checkTrack.setText("ER", GREEN);
 
         _spinnerDisplay.setStatic(displayOK != 0);
         _spinnerDisplay.setCenterVisiblilty(displayOK != 0);
@@ -131,6 +131,7 @@ public:
 
     FixWaitingScreen() : Screen() {
         hasStatusBar = true;
+        hasSattelitesIcon = true;
         _elements.push_back(&_waitingText1);
         _elements.push_back(&_waitingText2);
         _elements.push_back(&_aquiringSpinner);
@@ -162,6 +163,7 @@ public:
     MapScreen() : Screen() {
         hasStatusBar = true;
         hasMap = true;
+        hasSattelitesIcon = true;
     }
 
     void reset() {};
