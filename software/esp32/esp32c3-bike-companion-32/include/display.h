@@ -26,7 +26,7 @@ const int thickness_offsets[6] = {1, -1, 2, -2, 3, -3};
 class Display {
 
 private:
-    float zoom;
+    float zoom, battery_volt;
     Arduino_DataBus *bus;
     Arduino_GFX *disp;
     TFT_eSPI tft;
@@ -53,6 +53,7 @@ public:
     void drawCenterMarker();
     void drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4);
     void drawSattelitesIcon(int8_t nbsattelites);
+    void drawBatteryIcon(float battery_volt);
 
     /*******************************************************************************
      * Modified Bresenham algorithm based on the implementation from wikipeda 

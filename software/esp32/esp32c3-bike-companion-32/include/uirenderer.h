@@ -7,6 +7,7 @@
 #include <gnssmodule.h>
 #include <screens.h>
 #include <globalconfig.h>
+#include <power.h>
 
 /*
 
@@ -30,6 +31,7 @@ private:
     Screen* _currentScreen;
 
     StatusBarElement _stat_1, _stat_2, _stat_3, _stat_4;
+    Power* _power;
     Display* _disp;
     GNSSModule* _gnss;
     SimpleTile::Header* _header;
@@ -41,6 +43,7 @@ private:
     void renderInfoScreen();
     void renderStatusBar();
     void renderSattelitesIcon();
+    void renderBatteryIcon();
     void getStat(StatusBarElement ele, char* textBuff);
     void renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator=false);
 

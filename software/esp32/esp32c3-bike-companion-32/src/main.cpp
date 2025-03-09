@@ -19,6 +19,7 @@
 #include <serialutils.h>
 #include <globalconfig.h>
 #include <interppositionprovider.h>
+#include <power.h>
 
 /*
 
@@ -39,6 +40,7 @@ uint16_t currHeading = 0;
 // Fixed position provider for debugging
 GeoPosition currPos(47.3576820, 8.5183733);
 ConstGeoPosition mockPosProvider(currPos, currHeading);
+Power power;
 Display display;
 SDCard sdcard;
 GNSSModule gnss(0);
@@ -84,6 +86,20 @@ void setup() {
   expander->pinMode(7, OUTPUT);
   expander->printStatus();
   expander->digitalWrite(7, HIGH);
+
+  expander->pinMode(5, INPUT);
+  expander->pinMode(4, INPUT);
+  expander->pinMode(1, OUTPUT);
+  expander->pinMode(2, OUTPUT);
+  expander->digitalWrite(1, LOW);
+  expander->digitalWrite(2, LOW);
+  delay(20);
+  expander->digitalWrite(1, HIGH);
+  expander->digitalWrite(2, HIGH);
+
+  bool pmu_irq = expander->digitalRead(5);
+  
+  power.initialize(pmu_irq);
 
   display.initialize();
   gnss.initialize();
