@@ -99,28 +99,28 @@ void Display::drawBatteryIcon(int8_t battery_percent) {
 
 void Display::drawSattelitesIcon(int8_t nbsattelites) {
     if (4 < nbsattelites && nbsattelites < 6) {
-        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
-        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
-        sprite.drawWideLine(44, 35, 44, 18, 10, LIGHTGREY);
-        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+        sprite.drawWideLine(12, 29, 12, 26, 7, BLUE);
+        sprite.drawWideLine(21, 29, 21, 20, 7, BLUE);
+        sprite.drawWideLine(30, 29, 30, 16, 7, LIGHTGREY);
+        sprite.drawWideLine(39, 29, 39, 12, 7, LIGHTGREY);
     }
     else if (6 < nbsattelites && nbsattelites < 8) {
-        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
-        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
-        sprite.drawWideLine(44, 35, 44, 18, 10, BLUE);
-        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+        sprite.drawWideLine(12, 29, 12, 26, 7, BLUE);
+        sprite.drawWideLine(21, 29, 21, 20, 7, BLUE);
+        sprite.drawWideLine(30, 29, 30, 16, 7, BLUE);
+        sprite.drawWideLine(39, 29, 39, 12, 7, LIGHTGREY);
     }
     else if (nbsattelites > 8) {
-        sprite.drawWideLine(20, 35, 20, 32, 10, BLUE);
-        sprite.drawWideLine(32, 35, 32, 24, 10, BLUE);
-        sprite.drawWideLine(44, 35, 44, 18, 10, BLUE);
-        sprite.drawWideLine(56, 35, 56, 12, 10, BLUE);
+        sprite.drawWideLine(12, 29, 12, 26, 7, BLUE);
+        sprite.drawWideLine(21, 29, 21, 20, 7, BLUE);
+        sprite.drawWideLine(30, 29, 30, 16, 7, BLUE);
+        sprite.drawWideLine(39, 29, 39, 12, 7, BLUE);
     }
     else {
-        sprite.drawWideLine(20, 35, 20, 32, 10, GREEN);
-        sprite.drawWideLine(32, 35, 32, 24, 10, LIGHTGREY);
-        sprite.drawWideLine(44, 35, 44, 18, 10, LIGHTGREY);
-        sprite.drawWideLine(56, 35, 56, 12, 10, LIGHTGREY);
+        sprite.drawWideLine(12, 29, 12, 26, 7, GREEN);
+        sprite.drawWideLine(21, 29, 21, 20, 7, LIGHTGREY);
+        sprite.drawWideLine(30, 29, 30, 16, 7, LIGHTGREY);
+        sprite.drawWideLine(39, 29, 39, 12, 7, LIGHTGREY);
     }
 }
 
