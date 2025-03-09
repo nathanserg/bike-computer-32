@@ -26,8 +26,8 @@ protected:
     std::vector<ScreenElement*> _elements;
 
 public:
-    Screen() : hasStatusBar(false), hasMap(false), hasSattelitesIcon(false) {};
-    bool hasStatusBar, hasMap, hasSattelitesIcon;
+    Screen() : hasStatusBar(false), hasMap(false), hasSattelitesIcon(false), hasBatteryIcon(false) {};
+    bool hasStatusBar, hasMap, hasSattelitesIcon, hasBatteryIcon;
     virtual void reset() = 0;
     virtual bool render(Display* display) = 0;
 };
@@ -132,6 +132,7 @@ public:
     FixWaitingScreen() : Screen() {
         hasStatusBar = true;
         hasSattelitesIcon = true;
+        hasBatteryIcon = true;
         _elements.push_back(&_waitingText1);
         _elements.push_back(&_waitingText2);
         _elements.push_back(&_aquiringSpinner);
@@ -162,6 +163,7 @@ class MapScreen : public Screen {
 public:
     MapScreen() : Screen() {
         hasStatusBar = true;
+        hasBatteryIcon = true;
         hasMap = true;
         hasSattelitesIcon = true;
     }

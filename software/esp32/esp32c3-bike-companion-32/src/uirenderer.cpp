@@ -37,6 +37,10 @@ bool UIRenderer::initializeMap(SDCard* sd) {
     }
 };
 
+void UIRenderer::setPower(Power* power) {
+    _power = power;
+}
+
 void UIRenderer::setDisplay(Display* display) {
     _disp = display;
     _hasDisplay = true;
@@ -99,6 +103,9 @@ bool UIRenderer::step() {
         renderSattelitesIcon();
     }
 
+    if(_currentScreen->hasBatteryIcon) {
+        renderBatteryIcon();
+    }
 
     _disp->refresh();
 
@@ -144,6 +151,10 @@ void UIRenderer::renderStatusBar() {
 
 void UIRenderer::renderSattelitesIcon() {
     _disp->drawSattelitesIcon(_gnss->getSats());
+}
+
+void UIRenderer::renderBatteryIcon() {
+    _disp->drawBatteryIcon(_power->getBatteryPercent());
 }
 
 void UIRenderer::renderStat(StatusBarElement ele, char* textBuff, bool removeTerminator) {

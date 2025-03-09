@@ -27,6 +27,8 @@ class Display {
 
 private:
     float zoom;
+    uint8_t battery_percent;
+    uint16_t _battery_color;
     Arduino_DataBus *bus;
     Arduino_GFX *disp;
     TFT_eSPI tft;
@@ -53,6 +55,7 @@ public:
     void drawCenterMarker();
     void drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4);
     void drawSattelitesIcon(int8_t nbsattelites);
+    void drawBatteryIcon(int8_t battery_volt);
 
     /*******************************************************************************
      * Modified Bresenham algorithm based on the implementation from wikipeda 

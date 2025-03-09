@@ -64,7 +64,7 @@ void Display::drawCenterMarker() {
     x2 = DISPLAY_WIDTH_HALF + POSITION_MARKER_SIZE;
     y2 = DISPLAY_WIDTH_HALF + POSITION_MARKER_SIZE;
     sprite.fillTriangle(x0, y0, x1, y1, x2, y2, WHITE);
-};
+}
 
 void Display::drawStatusBar(const char* stat1, const char* stat2, const char* stat3, const char* stat4) {
     sprite.fillRect(0, DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_HEIGHT-DISPLAY_WIDTH, BLACK);
@@ -77,7 +77,25 @@ void Display::drawStatusBar(const char* stat1, const char* stat2, const char* st
     sprite.drawString(stat2, DISPLAY_WIDTH_HALF + 30, DISPLAY_WIDTH+10);
     sprite.drawString(stat3, 50, DISPLAY_WIDTH+50);
     sprite.drawString(stat4, DISPLAY_WIDTH_HALF + 30, DISPLAY_WIDTH+50);
-};
+}
+
+void Display::drawBatteryIcon(int8_t battery_percent) {
+    if (battery_percent < 30) {
+        _battery_color = GREEN;
+    }
+    else {
+        _battery_color = BLUE;
+    }
+    sprite.fillRoundRect(DISPLAY_WIDTH-72, 13, 54, 20, 6, WHITE);
+    sprite.setTextSize(2);
+    sprite.setTextColor(WHITE, BLACK);
+    sprite.fillRoundRect(DISPLAY_WIDTH-70, 15, battery_percent/2, 16, 4, _battery_color);
+
+    String battery_text = String(battery_percent) + "%";
+    int text_width = sprite.textWidth(battery_text);
+
+    sprite.drawString(battery_text, DISPLAY_WIDTH-75-text_width ,15);
+}
 
 void Display::drawSattelitesIcon(int8_t nbsattelites) {
     if (4 < nbsattelites && nbsattelites < 6) {
