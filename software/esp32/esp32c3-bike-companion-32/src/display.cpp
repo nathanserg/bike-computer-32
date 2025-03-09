@@ -94,7 +94,7 @@ void Display::drawBatteryIcon(int8_t battery_percent) {
     String battery_text = String(battery_percent) + "%";
     int text_width = sprite.textWidth(battery_text);
 
-    sprite.drawString(battery_text, DISPLAY_WIDTH-75-text_width ,15);
+    sprite.drawString(battery_text, DISPLAY_WIDTH-75-text_width, 15);
 }
 
 void Display::drawSattelitesIcon(int8_t nbsattelites) {
@@ -122,6 +122,9 @@ void Display::drawSattelitesIcon(int8_t nbsattelites) {
         sprite.drawWideLine(30, 29, 30, 16, 7, LIGHTGREY);
         sprite.drawWideLine(39, 29, 39, 12, 7, LIGHTGREY);
     }
+    sprite.setTextSize(2);
+    sprite.setTextColor(WHITE, BLACK);
+    sprite.drawString(String(nbsattelites), 48, 15);
 }
 
 void Display::refresh() {
